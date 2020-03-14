@@ -1,5 +1,6 @@
-package de.planerio.developertest;
+package de.planerio.developertest.repository;
 
+import de.planerio.developertest.model.SimpleObject;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

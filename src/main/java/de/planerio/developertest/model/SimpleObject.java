@@ -1,19 +1,20 @@
-package de.planerio.developertest;
+package de.planerio.developertest.model;
 
 import javax.persistence.*;
 
 @Entity
-public class Country {
+@Table(name = "simple_objects")
+public class SimpleObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
-    private String language;
+    private String message;
 
     public long getId() {
         return id;
@@ -31,11 +32,11 @@ public class Country {
         this.name = name;
     }
 
-    public String getLanguage() {
-        return language;
+    public String getMessage() {
+        return message;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

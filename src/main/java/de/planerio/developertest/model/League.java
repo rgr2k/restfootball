@@ -1,4 +1,4 @@
-package de.planerio.developertest;
+package de.planerio.developertest.model;
 
 import javax.persistence.*;
 import java.util.List;

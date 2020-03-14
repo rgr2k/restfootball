@@ -1,4 +1,7 @@
-package de.planerio.developertest;
+package de.planerio.developertest.model;
+
+import de.planerio.developertest.model.League;
+import de.planerio.developertest.model.Player;
 
 import javax.persistence.*;
 import java.util.List;

@@ -1,5 +1,13 @@
-package de.planerio.developertest;
+package de.planerio.developertest.controller;
 
+import de.planerio.developertest.repository.CountryRepository;
+import de.planerio.developertest.repository.LeagueRepository;
+import de.planerio.developertest.repository.PlayerRepository;
+import de.planerio.developertest.repository.TeamRepository;
+import de.planerio.developertest.model.Country;
+import de.planerio.developertest.model.League;
+import de.planerio.developertest.model.Player;
+import de.planerio.developertest.model.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
