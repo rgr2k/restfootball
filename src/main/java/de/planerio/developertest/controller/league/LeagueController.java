@@ -1,0 +1,8 @@
+package de.planerio.developertest.controller.league;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+
+@Controller
+public class LeagueController implements LeagueResource {
+}
