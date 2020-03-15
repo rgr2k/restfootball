@@ -34,16 +34,4 @@ public interface CountryResource {
     @ApiOperation(value = "Update country")
     @PutMapping(value = "/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     void updateCountry(@ApiParam(value = "Updated country object" ,required=true) @RequestBody Country country, @ApiParam(value = "ID of the country that needs to be updated", required=true, example = "123") @PathVariable long countryId);
-
-    // @PostMapping("/country/update/{countryId}")
-    // public void deleteCountry(@RequestBody Country updatedCountry, @PathVariable long countryId) {
-    //     cRepo.findById(countryId).orElseThrow();
-    //     cRepo.save(updatedCountry);
-    // }
-
-    // @PostMapping("/country/update/{countryId}")
-    // public void deleteCountry(@RequestBody Country updatedCountry, @PathVariable long countryId) {
-    //     cRepo.findById(countryId).orElseThrow();
-    //     cRepo.save(updatedCountry);
-    // }
 }
