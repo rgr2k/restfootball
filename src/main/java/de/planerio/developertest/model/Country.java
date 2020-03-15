@@ -1,5 +1,9 @@
 package de.planerio.developertest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 import javax.persistence.*;
 
 @Entity
@@ -37,5 +41,29 @@ public class Country {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Country)) return false;
+        Country country = (Country) o;
+        return getId() == country.getId() &&
+                Objects.equal(getName(), country.getName()) &&
+                Objects.equal(getLanguage(), country.getLanguage());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId(), getName(), getLanguage());
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("language", language)
+                .toString();
     }
 }
