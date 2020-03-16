@@ -3,13 +3,10 @@ package de.planerio.developertest.model;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "country")
 public class Country {
 
     @Id
@@ -21,6 +18,14 @@ public class Country {
 
     @Column(nullable = false)
     private String language;
+
+    public Country() {
+    }
+
+    public Country(String name, String language) {
+        this.name = name;
+        this.language = language;
+    }
 
     public long getId() {
         return id;

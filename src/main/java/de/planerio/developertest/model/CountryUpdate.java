@@ -2,18 +2,13 @@ package de.planerio.developertest.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javax.validation.constraints.NotBlank;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CountryRequest {
+public class CountryUpdate {
 
-    @NotBlank(message = "Name is required")
     private String name;
-
-    @NotBlank(message = "Language is required")
     private String language;
 
-    public CountryRequest() {
+    public CountryUpdate() {
     }
 
     public String getName() {

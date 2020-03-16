@@ -51,4 +51,10 @@ public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
         ExpectionResponse expectionResponse = new ExpectionResponse(new Date(), "Validation failed", ex.getBindingResult().toString());
         return new ResponseEntity<>(expectionResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ResourceExistsException.class)
+    public final ResponseEntity<ExpectionResponse> handleResourceExistsException(Exception exception, WebRequest webRequest){
+        ExpectionResponse expectionResponse = new ExpectionResponse(new Date(), exception.getMessage(), webRequest.getDescription(false));
+        return new ResponseEntity<>(expectionResponse, HttpStatus.CONFLICT);
+    }
 }

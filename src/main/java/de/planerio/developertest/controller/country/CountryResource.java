@@ -1,7 +1,8 @@
 package de.planerio.developertest.controller.country;
 
 import de.planerio.developertest.model.Country;
-import de.planerio.developertest.model.CountryRequest;
+import de.planerio.developertest.model.CountryCreate;
+import de.planerio.developertest.model.CountryUpdate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -21,17 +22,17 @@ public interface CountryResource {
 
     @ApiOperation(value = "Get country by id")
     @GetMapping(value = "/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    Country retrieveCountry(@ApiParam(value = "ID of the country that needs to be found", required=true, example = "123") @PathVariable long countryId);
+    Country retrieveCountry(@ApiParam(value = "ID of the country that needs to be found", required=true, example = "1") @PathVariable long countryId);
 
     @ApiOperation(value = "Create country")
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    Country createCountry(@ApiParam(value = "Created country object" , required=true) @Valid @RequestBody CountryRequest countryRequest);
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    Country createCountry(@ApiParam(value = "Created country object" , required=true) @Valid @RequestBody CountryCreate countryRequest);
 
     @ApiOperation(value = "Delete country")
     @DeleteMapping("/{countryId}")
-    void deleteCountry(@ApiParam(value = "ID of the country that needs to be deleted", required=true, example = "123") @PathVariable long countryId);
+    void deleteCountry(@ApiParam(value = "ID of the country that needs to be deleted", required=true, example = "1") @PathVariable long countryId);
 
     @ApiOperation(value = "Update country")
     @PutMapping(value = "/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    void updateCountry(@ApiParam(value = "Updated country object" ,required=true) @RequestBody Country country, @ApiParam(value = "ID of the country that needs to be updated", required=true, example = "123") @PathVariable long countryId);
+    void updateCountry(@ApiParam(value = "Updated country object" ,required=true) @RequestBody CountryUpdate countryUpdate, @ApiParam(value = "ID of the country that needs to be updated", required=true, example = "1") @PathVariable long countryId);
 }
