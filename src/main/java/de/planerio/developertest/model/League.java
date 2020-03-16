@@ -7,17 +7,25 @@ import java.util.List;
 public class League {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Country country;
 
     @OneToMany(targetEntity = Team.class)
     private List<Team> teams;
+
+    public League() {
+    }
+
+    public League(String name, Country country) {
+        this.name = name;
+        this.country = country;
+    }
 
     public long getId() {
         return id;
