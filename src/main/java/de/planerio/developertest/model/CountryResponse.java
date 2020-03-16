@@ -2,15 +2,13 @@ package de.planerio.developertest.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TeamUpdate {
+public class CountryResponse {
 
     private String name;
+    private String language;
 
-    public TeamUpdate() {
+    public CountryResponse() {
     }
 
     public String getName() {
@@ -19,5 +17,13 @@ public class TeamUpdate {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

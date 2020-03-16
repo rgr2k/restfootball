@@ -8,19 +8,19 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(value = "teams")
 @RequestMapping(value = "/v1/teams")
 public interface TeamResource {
 
-
     @ApiOperation(value = "Get teams")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    Iterable<Team> retrieveAllTeam();
+    List<TeamResponse> retrieveAllTeam();
 
     @ApiOperation(value = "Get team by id")
     @GetMapping(value = "/{teamId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    Team retrieveTeam(@ApiParam(value = "ID of the team that needs to be found", required=true, example = "1") @PathVariable long teamId);
+    TeamResponse retrieveTeam(@ApiParam(value = "ID of the team that needs to be found", required=true, example = "1") @PathVariable long teamId);
 
     @ApiOperation(value = "Create team")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
