@@ -1,7 +1,6 @@
 package de.planerio.developertest.controller.league;
 
 import de.planerio.developertest.exception.LeagueNotFoundException;
-import de.planerio.developertest.exception.ResourceExistsException;
 import de.planerio.developertest.model.League;
 import de.planerio.developertest.model.LeagueCreate;
 import de.planerio.developertest.model.LeagueUpdate;
@@ -10,9 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 public class LeagueController implements LeagueResource {
@@ -37,7 +34,7 @@ public class LeagueController implements LeagueResource {
     }
 
     @Override
-    public League createLeague(LeagueCreate leagueRequest) {
+    public League createLeague(@Valid LeagueCreate leagueRequest) {
         return leagueService.save(leagueRequest);
     }
 

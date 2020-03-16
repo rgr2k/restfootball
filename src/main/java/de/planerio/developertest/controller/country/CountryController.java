@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 import static de.planerio.developertest.exception.Constants.NO_COUNTRY_FOUND;
@@ -39,7 +40,7 @@ public class CountryController implements CountryResource {
     }
 
     @Override
-    public Country createCountry(CountryCreate countryRequest) {
+    public Country createCountry(@Valid CountryCreate countryRequest) {
         final Optional<Country> country = countryService.findCountryByNameAndLanguage(countryRequest.getName(), countryRequest.getLanguage());
         if(country.isPresent()){
             throw new ResourceExistsException(
