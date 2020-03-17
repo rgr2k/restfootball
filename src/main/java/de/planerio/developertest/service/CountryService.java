@@ -65,7 +65,7 @@ public class CountryService {
     }
 
     public Optional<Country> findCountryByNameAndLanguage(String name, String language){
-        return countryRepository.findCountryByNameAndLanguage(language, name);
+        return countryRepository.findCountryByNameAndLanguage(name,language);
     }
 
     private void validate(Country country, CountryUpdateRequest countryUpdate) {
