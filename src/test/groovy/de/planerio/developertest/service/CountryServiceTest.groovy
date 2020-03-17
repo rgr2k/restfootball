@@ -4,6 +4,7 @@ import de.planerio.developertest.UnitTest
 import de.planerio.developertest.exception.CountryNotFoundException
 import de.planerio.developertest.model.Country
 import de.planerio.developertest.model.CountryRequest
+import de.planerio.developertest.model.CountryUpdateRequest
 import de.planerio.developertest.repository.CountryRepository
 import org.junit.experimental.categories.Category
 import spock.lang.Specification
@@ -28,7 +29,7 @@ class CountryServiceTest extends Specification {
        1 * countryRepository.save(_) >> country
    }
 
-   def "find - the countryResponse is returned"(){
+   def "find"(){
        when:
        def countryResponse = countryService.find(1234)
 
@@ -48,7 +49,7 @@ class CountryServiceTest extends Specification {
        thrown(CountryNotFoundException)
 
        and:
-       countryRepository.findById(_) >> Optional.empty()
+       1 * countryRepository.findById(_) >> Optional.empty()
    }
 
    def "findAll"(){
@@ -59,7 +60,7 @@ class CountryServiceTest extends Specification {
        countries.size() == 1
 
        and:
-       countryRepository.findAll() >> [country]
+       1 * countryRepository.findAll() >> [country]
    }
 
    def "findAll - countries not found - exception is thrown"(){
@@ -70,6 +71,69 @@ class CountryServiceTest extends Specification {
         thrown(CountryNotFoundException)
 
         and:
-        countryRepository.findAll() >> []
+        1 * countryRepository.findAll() >> []
    }
+
+   def "update"(){
+       when:
+       countryService.update(new CountryUpdateRequest(name: "German", language: "de"), 123)
+
+       then:
+       countryRepository.findById(_) >> Optional.of(country)
+   }
+
+   def "update - countries not found - exception is thrown"(){
+       when:
+       countryService.update(new CountryUpdateRequest(name: "German", language: "de"), 123)
+
+       then:
+       thrown(CountryNotFoundException)
+
+       and:
+       1 * countryRepository.findById(_) >> Optional.empty()
+   }
+
+   def "delete"(){
+       when:
+       countryService.delete(123)
+
+       then:
+       countryRepository.findById(_) >> Optional.of(country)
+   }
+
+   def "delete - countries not found - exception is thrown"(){
+       when:
+       countryService.delete(123)
+
+       then:
+       thrown(CountryNotFoundException)
+
+       and:
+       1 * countryRepository.findById(_) >> Optional.empty()
+   }
+
+   def "findCountryByNameAndLanguage"(){
+       when:
+       def country = countryService.findCountryByNameAndLanguage(_ as String, _ as String)
+
+       then:
+       country.isPresent()
+       country.get().name == "German"
+       country.get().language == "de"
+
+       and:
+       1 * countryRepository.findCountryByNameAndLanguage(_,_) >> Optional.of(country)
+   }
+
+   def "findCountryByNameAndLanguage - countries not found - exception is thrown "(){
+        when:
+        def country = countryService.findCountryByNameAndLanguage(_ as String, _ as String)
+
+        then:
+        !country.isPresent()
+
+        and:
+        1 * countryRepository.findCountryByNameAndLanguage(_,_) >> Optional.empty()
+   }
+
 }
