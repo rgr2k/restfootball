@@ -125,7 +125,7 @@ class CountryServiceTest extends Specification {
        1 * countryRepository.findCountryByNameAndLanguage(_,_) >> Optional.of(country)
    }
 
-   def "findCountryByNameAndLanguage - countries not found - exception is thrown "(){
+   def "findCountryByNameAndLanguage - countries not found - empty country is returned "(){
         when:
         def country = countryService.findCountryByNameAndLanguage(_ as String, _ as String)
 
