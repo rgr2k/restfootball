@@ -11,8 +11,7 @@ import java.util.Optional;
 @Repository
 public interface CountryRepository extends CrudRepository<Country, Long> {
 
-    @Query("SELECT c from Country c where c.language = ?1 and c.name = ?2")
-    Optional<Country> findCountryByNameAndLanguage(@Param("language") String language, @Param("name") String name);
+    Country findCountryByNameAndLanguage(String name, String language);
 
     @Query("SELECT c from Country c where c.name = ?1")
     Country findCountryByName(@Param("name") String name);

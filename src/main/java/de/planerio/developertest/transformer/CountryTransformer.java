@@ -11,6 +11,6 @@ public class CountryTransformer {
     }
 
     public static Country toEntity(CountryRequest countryRequest){
-        return new Country(countryRequest.getName(), countryRequest.getName());
+        return new Country(countryRequest.getName(), countryRequest.getLanguage());
     }
 }
