@@ -5,15 +5,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LeagueCreate {
+public class LeagueRequest {
 
     @NotBlank(message = "Name is required")
     private String name;
 
     @NotNull(message = "Country is required")
-    private CountryCreate country;
+    private CountryRequest country;
 
-    public LeagueCreate() {
+    public LeagueRequest() {
     }
 
     public String getName() {
@@ -24,11 +24,11 @@ public class LeagueCreate {
         this.name = name;
     }
 
-    public CountryCreate getCountry() {
+    public CountryRequest getCountry() {
         return country;
     }
 
-    public void setCountry(CountryCreate country) {
+    public void setCountry(CountryRequest country) {
         this.country = country;
     }
 }

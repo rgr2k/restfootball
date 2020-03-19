@@ -1,15 +1,15 @@
 package de.planerio.developertest.controller.league;
 
-import de.planerio.developertest.exception.LeagueNotFoundException;
-import de.planerio.developertest.model.League;
-import de.planerio.developertest.model.LeagueCreate;
-import de.planerio.developertest.model.LeagueUpdate;
+import de.planerio.developertest.model.LeagueRequest;
+import de.planerio.developertest.model.LeagueResponse;
+import de.planerio.developertest.model.LeagueUpdateRequest;
 import de.planerio.developertest.service.LeagueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class LeagueController implements LeagueResource {
@@ -24,29 +24,27 @@ public class LeagueController implements LeagueResource {
     }
 
     @Override
-    public Iterable<League> retrieveAllLeagues() {
-        return leagueService.findAll().orElseThrow(() -> new LeagueNotFoundException("There are no leagues found"));
+    public List<LeagueResponse> retrieveAllLeagues() {
+        return leagueService.findAll();
     }
 
     @Override
-    public League retrieveLeague(long leagueId) {
-        return leagueService.find(leagueId).orElseThrow(() -> new LeagueNotFoundException("There is no league found"));
+    public LeagueResponse retrieveLeague(long leagueId) {
+        return leagueService.find(leagueId);
     }
 
     @Override
-    public League createLeague(@Valid LeagueCreate leagueRequest) {
+    public LeagueResponse createLeague(@Valid LeagueRequest leagueRequest) {
         return leagueService.save(leagueRequest);
     }
 
     @Override
     public void deleteLeague(long leagueId) {
-        leagueService.find(leagueId).orElseThrow(() -> new LeagueNotFoundException("There is no league found"));
         leagueService.delete(leagueId);
     }
 
     @Override
-    public void updateLeague(LeagueUpdate leagueUpdate, long leagueId) {
-        League league = leagueService.find(leagueId).orElseThrow(() -> new LeagueNotFoundException("There is no league found"));
-        leagueService.update(league, leagueUpdate);
+    public void updateLeague(LeagueUpdateRequest leagueUpdate, long leagueId) {
+        leagueService.update(leagueUpdate, leagueId);
     }
 }

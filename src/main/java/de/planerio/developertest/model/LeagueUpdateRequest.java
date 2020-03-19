@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LeagueUpdate {
+public class LeagueUpdateRequest {
 
     private String name;
 
     @NotNull
-    private CountryCreate country;
+    private CountryRequest country;
 
-    public LeagueUpdate() {
+    public LeagueUpdateRequest() {
     }
 
     public String getName() {
@@ -23,11 +23,11 @@ public class LeagueUpdate {
         this.name = name;
     }
 
-    public CountryCreate getCountry() {
+    public CountryRequest getCountry() {
         return country;
     }
 
-    public void setCountry(CountryCreate country) {
+    public void setCountry(CountryRequest country) {
         this.country = country;
     }
 }

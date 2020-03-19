@@ -1,18 +1,19 @@
 package de.planerio.developertest.service;
 
 import com.google.common.base.Strings;
+import de.planerio.developertest.exception.LeagueNotFoundException;
 import de.planerio.developertest.exception.ResourceExistsException;
-import de.planerio.developertest.model.Country;
-import de.planerio.developertest.model.League;
-import de.planerio.developertest.model.LeagueCreate;
-import de.planerio.developertest.model.LeagueUpdate;
+import de.planerio.developertest.model.*;
 import de.planerio.developertest.repository.LeagueRepository;
+import de.planerio.developertest.transformer.LeagueTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static de.planerio.developertest.exception.Constants.THERE_IS_LEAGUE;
 
@@ -27,42 +28,43 @@ public class LeagueService {
         this.leagueRepository = leagueRepository;
     }
 
-    public League save(LeagueCreate leagueRequest){
+    public LeagueResponse save(LeagueRequest leagueRequest){
         existsLeague(leagueRequest.getCountry().getName());
-        return leagueRepository.save(buildLeague(leagueRequest));
+        League league = LeagueTransformer.toEntity(leagueRequest);
+        return LeagueTransformer.toResponse(leagueRepository.save(league));
     }
 
-    public Optional<League> find(long leagueId){
-        return leagueRepository.findById(leagueId);
+    public LeagueResponse find(long leagueId){
+        League league = leagueRepository.findById(leagueId)
+                .orElseThrow(() -> new LeagueNotFoundException("There is no league found"));
+        return LeagueTransformer.toResponse(league);
     }
 
-    public Optional<Iterable<League>> findAll(){
-        final Iterable<League> leagues = leagueRepository.findAll();
-        return leagues.iterator().hasNext() ? Optional.of(leagues) : Optional.empty();
+    public List<LeagueResponse> findAll(){
+        List<LeagueResponse> leagueResponses =
+                leagueRepository.findAll().stream()
+                        .map(LeagueTransformer::toResponse).collect(Collectors.toList());
+        if(leagueResponses.isEmpty()){
+            throw new LeagueNotFoundException("There are no leagues found");
+        }
+        return leagueResponses;
     }
 
     public void delete(long leagueId){
+        leagueRepository.findById(leagueId)
+                .orElseThrow(() -> new LeagueNotFoundException("There is no league found"));
         leagueRepository.deleteById(leagueId);
     }
 
-    public void update(League league, LeagueUpdate leagueUpdate){
+    public void update(LeagueUpdateRequest leagueUpdate, long leagueId){
         existsLeague(leagueUpdate.getCountry().getName());
+        League league = leagueRepository.findById(leagueId)
+                .orElseThrow(() -> new LeagueNotFoundException("There is no league found"));
         validate(league, leagueUpdate);
         leagueRepository.save(league);
     }
 
-    public Optional<League> findLeagueByCountryName(String countryName){
-       return leagueRepository.findLeagueByCountryName(countryName);
-    }
-
-    private League buildLeague(LeagueCreate leagueRequest){
-        String countryName = leagueRequest.getCountry().getName();
-        String countryLanguage = leagueRequest.getCountry().getLanguage();
-        Country country = new Country(countryName, countryLanguage);
-        return new League(leagueRequest.getName(), country);
-    }
-
-    private void validate(League league, LeagueUpdate leagueUpdate) {
+    private void validate(League league, LeagueUpdateRequest leagueUpdate) {
         if(!Strings.isNullOrEmpty(leagueUpdate.getName())){
             league.setName(leagueUpdate.getName());
         }
@@ -75,8 +77,7 @@ public class LeagueService {
     }
 
     private void existsLeague(String countryName){
-        Optional<League> league =
-                this.findLeagueByCountryName(countryName);
+        Optional<League> league = leagueRepository.findLeagueByCountryName(countryName);
         if(league.isPresent()){
             throw new ResourceExistsException(String.format(THERE_IS_LEAGUE, countryName));
         }
