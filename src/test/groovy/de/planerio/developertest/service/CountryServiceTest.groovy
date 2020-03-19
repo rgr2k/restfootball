@@ -7,6 +7,7 @@ import de.planerio.developertest.model.CountryRequest
 import de.planerio.developertest.model.CountryUpdateRequest
 import de.planerio.developertest.repository.CountryRepository
 import org.junit.experimental.categories.Category
+import org.springframework.dao.EmptyResultDataAccessException
 import spock.lang.Specification
 
 @Category(UnitTest.class)
@@ -101,7 +102,7 @@ class CountryServiceTest extends Specification {
        countryRepository.findById(_) >> Optional.of(country)
    }
 
-   def "delete - countries not found - exception is thrown"(){
+   def "delete - country not found - exception is thrown"(){
        when:
        countryService.delete(123)
 
@@ -109,7 +110,7 @@ class CountryServiceTest extends Specification {
        thrown(CountryNotFoundException)
 
        and:
-       1 * countryRepository.findById(_) >> Optional.empty()
+       1 * countryRepository.deleteById(123) >> {throw new EmptyResultDataAccessException("", 1)}
    }
 
    def "findCountryByNameAndLanguage"(){

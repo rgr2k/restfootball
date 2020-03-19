@@ -1,6 +1,7 @@
 package de.planerio.developertest.service;
 
 import com.google.common.base.Strings;
+import de.planerio.developertest.exception.Constants;
 import de.planerio.developertest.exception.LeagueNotFoundException;
 import de.planerio.developertest.exception.ResourceExistsException;
 import de.planerio.developertest.model.*;
@@ -9,12 +10,14 @@ import de.planerio.developertest.transformer.LeagueTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static de.planerio.developertest.exception.Constants.*;
 import static de.planerio.developertest.exception.Constants.THERE_IS_LEAGUE;
 
 @Service
@@ -36,7 +39,7 @@ public class LeagueService {
 
     public LeagueResponse find(long leagueId){
         League league = leagueRepository.findById(leagueId)
-                .orElseThrow(() -> new LeagueNotFoundException("There is no league found"));
+                .orElseThrow(() -> new LeagueNotFoundException(LEAGUE_NOT_FOUND));
         return LeagueTransformer.toResponse(league);
     }
 
@@ -45,21 +48,23 @@ public class LeagueService {
                 leagueRepository.findAll().stream()
                         .map(LeagueTransformer::toResponse).collect(Collectors.toList());
         if(leagueResponses.isEmpty()){
-            throw new LeagueNotFoundException("There are no leagues found");
+            throw new LeagueNotFoundException(LEAGUE_NOT_FOUND);
         }
         return leagueResponses;
     }
 
     public void delete(long leagueId){
-        leagueRepository.findById(leagueId)
-                .orElseThrow(() -> new LeagueNotFoundException("There is no league found"));
-        leagueRepository.deleteById(leagueId);
+        try {
+            leagueRepository.deleteById(leagueId);
+        }catch (EmptyResultDataAccessException ex){
+            throw new LeagueNotFoundException(LEAGUE_NOT_FOUND);
+        }
     }
 
     public void update(LeagueUpdateRequest leagueUpdate, long leagueId){
         existsLeague(leagueUpdate.getCountry().getName());
         League league = leagueRepository.findById(leagueId)
-                .orElseThrow(() -> new LeagueNotFoundException("There is no league found"));
+                .orElseThrow(() -> new LeagueNotFoundException(LEAGUE_NOT_FOUND));
         validate(league, leagueUpdate);
         leagueRepository.save(league);
     }

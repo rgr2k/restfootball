@@ -9,12 +9,13 @@ import de.planerio.developertest.model.CountryUpdateRequest;
 import de.planerio.developertest.repository.CountryRepository;
 import de.planerio.developertest.transformer.CountryTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static de.planerio.developertest.exception.Constants.NO_COUNTRIES_FOUND;
-import static de.planerio.developertest.exception.Constants.NO_COUNTRY_FOUND;
+import static de.planerio.developertest.exception.Constants.COUNTRIES_NOT_FOUND;
+import static de.planerio.developertest.exception.Constants.COUNTRY_NOT_FOUND;
 import static java.util.stream.StreamSupport.stream;
 
 @Service
@@ -35,7 +36,7 @@ public class CountryService {
     public CountryResponse find(long countryId){
         final Country country =
                 countryRepository.findById(countryId)
-                        .orElseThrow(() -> new CountryNotFoundException(NO_COUNTRY_FOUND));
+                        .orElseThrow(() -> new CountryNotFoundException(COUNTRY_NOT_FOUND));
         return CountryTransformer.toResponse(country);
     }
 
@@ -45,21 +46,23 @@ public class CountryService {
                 .collect(Collectors.toList());
 
         if(countries.isEmpty()){
-            throw new CountryNotFoundException(NO_COUNTRIES_FOUND);
+            throw new CountryNotFoundException(COUNTRIES_NOT_FOUND);
         }
         return countries;
     }
 
     public void delete(long countryId){
-        countryRepository.findById(countryId)
-                .orElseThrow(() -> new CountryNotFoundException(NO_COUNTRY_FOUND));
-        countryRepository.deleteById(countryId);
+        try {
+            countryRepository.deleteById(countryId);
+        }catch (EmptyResultDataAccessException ex){
+            throw new CountryNotFoundException(COUNTRY_NOT_FOUND);
+        }
     }
 
     public void update(CountryUpdateRequest countryUpdateRequest, long countryId){
         Country country =
                 countryRepository.findById(countryId)
-                        .orElseThrow(() -> new CountryNotFoundException(NO_COUNTRY_FOUND));
+                        .orElseThrow(() -> new CountryNotFoundException(COUNTRY_NOT_FOUND));
         validate(country, countryUpdateRequest);
         countryRepository.save(country);
     }

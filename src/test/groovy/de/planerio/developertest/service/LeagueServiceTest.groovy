@@ -10,6 +10,7 @@ import de.planerio.developertest.model.LeagueRequest
 import de.planerio.developertest.model.LeagueUpdateRequest
 import de.planerio.developertest.repository.LeagueRepository
 import org.junit.experimental.categories.Category
+import org.springframework.dao.EmptyResultDataAccessException
 import spock.lang.Specification
 
 @Category(UnitTest.class)
@@ -152,6 +153,6 @@ class LeagueServiceTest extends Specification {
         thrown(LeagueNotFoundException)
 
         and:
-        1 * leagueRepository.findById(_) >> Optional.empty()
+        leagueRepository.deleteById(123) >> {throw new EmptyResultDataAccessException("",1)}
     }
 }
