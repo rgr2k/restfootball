@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import static de.planerio.developertest.exception.Constants.NO_COUNTRIES_FOUND;
 import static de.planerio.developertest.exception.Constants.NO_COUNTRY_FOUND;
-import static java.util.stream.StreamSupport.*;
+import static java.util.stream.StreamSupport.stream;
 
 @Service
 public class CountryService {
@@ -28,8 +28,8 @@ public class CountryService {
     }
 
     public CountryResponse save(CountryRequest countryRequest){
-        final Country countryEntity = CountryTransformer.toEntity(countryRequest);
-        return CountryTransformer.toResponse(countryRepository.save(countryEntity));
+        final Country country = CountryTransformer.toEntity(countryRequest);
+        return CountryTransformer.toResponse(countryRepository.save(country));
     }
 
     public CountryResponse find(long countryId){
