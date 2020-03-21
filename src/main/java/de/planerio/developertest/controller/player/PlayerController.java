@@ -1,14 +1,14 @@
 package de.planerio.developertest.controller.player;
 
-import de.planerio.developertest.model.Player;
-import de.planerio.developertest.model.PlayerCreate;
-import de.planerio.developertest.model.PlayerUpdate;
+import de.planerio.developertest.model.PlayerRequest;
+import de.planerio.developertest.model.PlayerResponse;
+import de.planerio.developertest.model.PlayerUpdateRequest;
 import de.planerio.developertest.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class PlayerController implements PlayerResource {
@@ -20,28 +20,29 @@ public class PlayerController implements PlayerResource {
         this.playerService = playerService;
     }
 
+
     @Override
-    public Iterable<Player> retrieveAllPlayers() {
-        return null;
+    public List<PlayerResponse> retrieveAllPlayers() {
+        return playerService.findAll();
     }
 
     @Override
-    public Player retrievePlayer(long playerId) {
-        return null;
+    public PlayerResponse retrievePlayer(long playerId) {
+        return playerService.findById(playerId);
     }
 
     @Override
-    public Player createPlayer(@Valid PlayerCreate playerCreate) {
-        return null;
+    public PlayerResponse createPlayer(@Valid PlayerRequest playerRequest) {
+        return playerService.save(playerRequest);
     }
 
     @Override
     public void deletePlayer(long playerId) {
-
+        playerService.delete(playerId);
     }
 
     @Override
-    public void updatePlayer(@Valid PlayerUpdate playerUpdate, long playerId) {
-
+    public void updatePlayer(@Valid PlayerUpdateRequest playerUpdate, long playerId) {
+        playerService.update(playerUpdate, playerId);
     }
 }

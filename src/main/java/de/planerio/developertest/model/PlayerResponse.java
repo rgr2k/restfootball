@@ -1,25 +1,24 @@
 package de.planerio.developertest.model;
 
-import javax.persistence.*;
-
-@Entity
 public class PlayerResponse {
 
-    private long id;
+    private Long id;
     private String name;
-    private String position;
-    private int shirtNumber;
-    private Team team;
+    private PlayerPosition position;
+    private Integer shirtNumber;
+    private String team;
+    private String league;
 
-    public PlayerResponse(long id, String name, String position, int shirtNumber, Team team) {
+    public PlayerResponse(Long id, String name, PlayerPosition position, Integer shirtNumber, String team, String league) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.shirtNumber = shirtNumber;
         this.team = team;
+        this.league = league;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -27,15 +26,19 @@ public class PlayerResponse {
         return name;
     }
 
-    public String getPosition() {
+    public PlayerPosition getPosition() {
         return position;
     }
 
-    public int getShirtNumber() {
+    public Integer getShirtNumber() {
         return shirtNumber;
     }
 
-    public Team getTeam() {
+    public String getTeam() {
         return team;
+    }
+
+    public String getLeague() {
+        return league;
     }
 }

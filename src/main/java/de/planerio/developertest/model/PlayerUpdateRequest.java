@@ -1,23 +1,18 @@
 package de.planerio.developertest.model;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class PlayerRequest {
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class PlayerUpdateRequest {
 
     private String name;
-
     private PlayerPosition position;
-
     private Integer shirtNumber;
 
-    private Long teamId;
-
-    public PlayerRequest() {
+    public PlayerUpdateRequest() {
     }
 
-    public PlayerRequest(String name, PlayerPosition position, Integer shirtNumber) {
+    public PlayerUpdateRequest(String name, PlayerPosition position, Integer shirtNumber) {
         this.name = name;
         this.position = position;
         this.shirtNumber = shirtNumber;
@@ -33,9 +28,5 @@ public class PlayerRequest {
 
     public Integer getShirtNumber() {
         return shirtNumber;
-    }
-
-    public Long getTeamId() {
-        return teamId;
     }
 }

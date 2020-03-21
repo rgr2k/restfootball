@@ -7,7 +7,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -16,7 +16,8 @@ public class Player {
     private Team team;
 
     @Column(nullable = false)
-    private String position;
+    @Enumerated(EnumType.STRING)
+    private PlayerPosition position;
 
     @Column(nullable = false)
     private int shirtNumber;
@@ -24,13 +25,14 @@ public class Player {
     public Player() {
     }
 
-    public Player(String name, String position, int shirtNumber) {
+    public Player(String name, Team team, PlayerPosition position, int shirtNumber) {
         this.name = name;
+        this.team = team;
         this.position = position;
         this.shirtNumber = shirtNumber;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -54,11 +56,11 @@ public class Player {
         this.team = team;
     }
 
-    public String getPosition() {
+    public PlayerPosition getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public void setPosition(PlayerPosition position) {
         this.position = position;
     }
 

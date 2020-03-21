@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(value = "players")
 @RequestMapping(value = "/v1/players")
@@ -15,15 +16,15 @@ public interface PlayerResource {
 
     @ApiOperation(value = "Get players")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    Iterable<Player> retrieveAllPlayers();
+    List<PlayerResponse> retrieveAllPlayers();
 
     @ApiOperation(value = "Get league by id")
     @GetMapping(value = "/{playerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    Player retrievePlayer(@ApiParam(value = "ID of the league that needs to be found", required=true, example = "123") @PathVariable long playerId);
+    PlayerResponse retrievePlayer(@ApiParam(value = "ID of the league that needs to be found", required=true, example = "123") @PathVariable long playerId);
 
     @ApiOperation(value = "Create player")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    Player createPlayer(@ApiParam(value = "Created player object" , required=true) @Valid @RequestBody PlayerCreate playerCreate);
+    PlayerResponse createPlayer(@ApiParam(value = "Created player object" , required=true) @Valid @RequestBody PlayerRequest playerRequest);
 
     @ApiOperation(value = "Delete player")
     @DeleteMapping("/{playerId}")
@@ -31,5 +32,5 @@ public interface PlayerResource {
 
     @ApiOperation(value = "Update player")
     @PutMapping(value = "/{playerId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    void updatePlayer(@ApiParam(value = "Updated player object" ,required=true) @Valid @RequestBody PlayerUpdate playerUpdate, @ApiParam(value = "ID of the league that needs to be updated", required=true, example = "123") @PathVariable long playerId);
+    void updatePlayer(@ApiParam(value = "Updated player object" ,required=true) @Valid @RequestBody PlayerUpdateRequest playerUpdate, @ApiParam(value = "ID of the league that needs to be updated", required=true, example = "123") @PathVariable long playerId);
 }
