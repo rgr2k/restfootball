@@ -19,6 +19,26 @@ public class Team {
     @OneToMany(targetEntity = Player.class)
     private List<Player> players;
 
+    public Team() {
+    }
+
+    public Team(String name) {
+        this.name = name;
+    }
+
+    public Team(long id, String name, League league) {
+        this.id = id;
+        this.name = name;
+        this.league = league;
+    }
+
+    public Team(long id, String name, League league, List<Player> players) {
+        this.id = id;
+        this.name = name;
+        this.league = league;
+        this.players = players;
+    }
+
     public long getId() {
         return id;
     }

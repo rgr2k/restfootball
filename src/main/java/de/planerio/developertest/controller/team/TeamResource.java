@@ -24,7 +24,7 @@ public interface TeamResource {
 
     @ApiOperation(value = "Create team")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    Team createTeam(@ApiParam(value = "Created team object" , required=true) @Valid @RequestBody TeamCreate teamCreate);
+    TeamResponse createTeam(@ApiParam(value = "Created team object" , required=true) @Valid @RequestBody TeamRequest teamCreate);
 
     @ApiOperation(value = "Delete team")
     @DeleteMapping("/{teamId}")
@@ -32,5 +32,5 @@ public interface TeamResource {
 
     @ApiOperation(value = "Update team")
     @PutMapping(value = "/{teamId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    void updateTeam(@ApiParam(value = "Updated team object" ,required=true) @RequestBody TeamUpdate teamUpdate, @ApiParam(value = "ID of the team that needs to be updated", required=true, example = "1") @PathVariable long teamId);
+    void updateTeam(@ApiParam(value = "Updated team object" ,required=true) @RequestBody TeamUpdateRequest teamUpdate, @ApiParam(value = "ID of the team that needs to be updated", required=true, example = "1") @PathVariable long teamId);
 }

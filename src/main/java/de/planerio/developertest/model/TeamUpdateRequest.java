@@ -1,16 +1,21 @@
 package de.planerio.developertest.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TeamCreate {
+public class TeamUpdateRequest {
 
     @NotBlank
     private String name;
-    private Long leagueId;
 
-    public TeamCreate() {
+    public TeamUpdateRequest() {
+    }
+
+    public TeamUpdateRequest(@NotBlank String name) {
+        this.name = name;
     }
 
     public String getName() {
@@ -19,13 +24,5 @@ public class TeamCreate {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getLeagueId() {
-        return leagueId;
-    }
-
-    public void setLeagueId(Long leagueId) {
-        this.leagueId = leagueId;
     }
 }

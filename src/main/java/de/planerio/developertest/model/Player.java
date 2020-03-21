@@ -21,6 +21,15 @@ public class Player {
     @Column(nullable = false)
     private int shirtNumber;
 
+    public Player() {
+    }
+
+    public Player(String name, String position, int shirtNumber) {
+        this.name = name;
+        this.position = position;
+        this.shirtNumber = shirtNumber;
+    }
+
     public long getId() {
         return id;
     }
