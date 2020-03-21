@@ -5,6 +5,7 @@ import de.planerio.developertest.exception.Constants;
 import de.planerio.developertest.exception.LeagueNotFoundException;
 import de.planerio.developertest.exception.ResourceExistsException;
 import de.planerio.developertest.model.*;
+import de.planerio.developertest.repository.CountryRepository;
 import de.planerio.developertest.repository.LeagueRepository;
 import de.planerio.developertest.transformer.LeagueTransformer;
 import org.slf4j.Logger;
@@ -25,15 +26,21 @@ public class LeagueService {
 
     private static final Logger log = LoggerFactory.getLogger(LeagueService.class);
     private final LeagueRepository leagueRepository;
+    private final CountryRepository countryRepository;
 
     @Autowired
-    public LeagueService(LeagueRepository leagueRepository) {
+    public LeagueService(LeagueRepository leagueRepository, CountryRepository countryRepository) {
         this.leagueRepository = leagueRepository;
+        this.countryRepository = countryRepository;
     }
 
     public LeagueResponse save(LeagueRequest leagueRequest){
         existsLeague(leagueRequest.getCountry().getName());
-        League league = LeagueTransformer.toEntity(leagueRequest);
+
+        final Optional<Country> country =
+                countryRepository.findCountryByNameAndLanguage(leagueRequest.getCountry().getName(), leagueRequest.getCountry().getLanguage());
+
+        League league = LeagueTransformer.toEntity(leagueRequest, country);
         return LeagueTransformer.toResponse(leagueRepository.save(league));
     }
 
