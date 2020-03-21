@@ -1,7 +1,6 @@
 package de.planerio.developertest.service;
 
 import com.google.common.base.Strings;
-import de.planerio.developertest.exception.Constants;
 import de.planerio.developertest.exception.LeagueNotFoundException;
 import de.planerio.developertest.exception.ResourceExistsException;
 import de.planerio.developertest.model.*;
@@ -69,7 +68,6 @@ public class LeagueService {
     }
 
     public void update(LeagueUpdateRequest leagueUpdate, long leagueId){
-        existsLeague(leagueUpdate.getCountry().getName());
         League league = leagueRepository.findById(leagueId)
                 .orElseThrow(() -> new LeagueNotFoundException(LEAGUE_NOT_FOUND));
         validate(league, leagueUpdate);
@@ -79,12 +77,6 @@ public class LeagueService {
     private void validate(League league, LeagueUpdateRequest leagueUpdate) {
         if(!Strings.isNullOrEmpty(leagueUpdate.getName())){
             league.setName(leagueUpdate.getName());
-        }
-        if(!Strings.isNullOrEmpty(leagueUpdate.getCountry().getLanguage())){
-            league.getCountry().setLanguage(leagueUpdate.getCountry().getLanguage());
-        }
-        if(!Strings.isNullOrEmpty(leagueUpdate.getCountry().getName())){
-            league.getCountry().setName(leagueUpdate.getCountry().getName());
         }
     }
 

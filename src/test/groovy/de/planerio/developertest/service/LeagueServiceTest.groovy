@@ -24,7 +24,7 @@ class LeagueServiceTest extends Specification {
     def league = new League(id: 123, name: "My league", country: country)
     def countryRequest = new CountryRequest(name: "German", language: "de")
     def leagueRequest = new LeagueRequest(name: "My league", country: countryRequest)
-    def leagueUpdateRequest = new LeagueUpdateRequest(name: "My league", country: countryRequest)
+    def leagueUpdateRequest = new LeagueUpdateRequest(name: "My league")
 
     def "save - country not exists - create other country"(){
         when:
@@ -134,21 +134,7 @@ class LeagueServiceTest extends Specification {
         noExceptionThrown()
 
         and:
-        1 * leagueRepository.findLeagueByCountryName(_) >> Optional.empty()
-
-        and:
         1 * leagueRepository.findById(_) >> Optional.of(league)
-    }
-
-    def "update - there is a league registered - exception is thrown"(){
-        when:
-        leagueService.update(leagueUpdateRequest, 1)
-
-        then:
-        thrown(ResourceExistsException)
-
-        and:
-        1 * leagueRepository.findLeagueByCountryName(_) >> Optional.of(league)
     }
 
     def "update - leagues not found - exception is thrown"(){
@@ -157,9 +143,6 @@ class LeagueServiceTest extends Specification {
 
         then:
         thrown(LeagueNotFoundException)
-
-        and:
-        1 * leagueRepository.findLeagueByCountryName(_) >> Optional.empty()
 
         and:
         1 * leagueRepository.findById(_) >> Optional.empty()
