@@ -9,6 +9,9 @@ public class PlayerResponse {
     private String team;
     private String league;
 
+    public PlayerResponse() {
+    }
+
     public PlayerResponse(Long id, String name, PlayerPosition position, Integer shirtNumber, String team, String league) {
         this.id = id;
         this.name = name;

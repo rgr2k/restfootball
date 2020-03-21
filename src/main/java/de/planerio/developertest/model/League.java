@@ -1,5 +1,8 @@
 package de.planerio.developertest.model;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -57,5 +60,31 @@ public class League {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("country", country)
+                .add("teams", teams)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof League)) return false;
+        League league = (League) o;
+        return Objects.equal(getId(), league.getId()) &&
+                Objects.equal(getName(), league.getName()) &&
+                Objects.equal(getCountry(), league.getCountry()) &&
+                Objects.equal(getTeams(), league.getTeams());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId(), getName(), getCountry(), getTeams());
     }
 }

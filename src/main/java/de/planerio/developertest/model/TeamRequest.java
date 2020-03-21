@@ -2,6 +2,7 @@ package de.planerio.developertest.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
