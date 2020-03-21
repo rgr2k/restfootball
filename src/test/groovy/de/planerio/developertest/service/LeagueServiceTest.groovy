@@ -18,17 +18,11 @@ class LeagueServiceTest extends Specification {
 
     def leagueRepository = Mock(LeagueRepository)
     def leagueService = new LeagueService(leagueRepository)
-    def country = new Country(name: "German", language: "de")
-    def league = new League(name: "My league", country: country)
+    def country = new Country(id: 1223, name: "German", language: "de")
+    def league = new League(id: 123, name: "My league", country: country)
     def countryRequest = new CountryRequest(name: "German", language: "de")
     def leagueRequest = new LeagueRequest(name: "My league", country: countryRequest)
     def leagueUpdateRequest = new LeagueUpdateRequest(name: "My league", country: countryRequest)
-    def leagues = [
-            new League(name: "My league 1", country: new Country(name: "German", language: "de")),
-            new League(name: "My league 1", country: new Country(name: "Brazil", language: "pt")),
-            new League(name: "My league 1", country: new Country(name: "Canada", language: "en")),
-            new League(name: "My league 1", country: new Country(name: "Greece", language: "el"))
-    ]
 
     def "save"(){
         when:
@@ -86,10 +80,10 @@ class LeagueServiceTest extends Specification {
         def leaguesResponse = leagueService.findAll()
 
         then:
-        leaguesResponse.size() == 4
+        leaguesResponse.size() > 9
 
         and:
-        1 * leagueRepository.findAll() >> leagues
+        1 * leagueRepository.findAll() >> createLeague(10)
     }
 
     def "findAll - leagues not found - exception is thrown"(){
@@ -108,7 +102,12 @@ class LeagueServiceTest extends Specification {
         leagueService.update(leagueUpdateRequest, 1)
 
         then:
+        noExceptionThrown()
+
+        and:
         1 * leagueRepository.findLeagueByCountryName(_) >> Optional.empty()
+
+        and:
         1 * leagueRepository.findById(_) >> Optional.of(league)
     }
 
@@ -142,7 +141,7 @@ class LeagueServiceTest extends Specification {
         leagueService.delete(123)
 
         then:
-        leagueRepository.findById(_) >> Optional.of(league)
+        noExceptionThrown()
     }
 
     def "delete - leagues not found - exception is thrown"(){
@@ -154,5 +153,15 @@ class LeagueServiceTest extends Specification {
 
         and:
         leagueRepository.deleteById(123) >> {throw new EmptyResultDataAccessException("",1)}
+    }
+
+    def createLeague(numberOfLeagues){
+        int count = 1
+        def leagues = []
+        while(count<=numberOfLeagues) {
+            leagues.add(new League(id: 123, name: "My league " + count, country: new Country(id: 123, name: "German", language: "de")))
+            count++
+        }
+        return leagues
     }
 }

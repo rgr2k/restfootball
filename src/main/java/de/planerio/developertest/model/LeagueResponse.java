@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LeagueResponse {
 
-    private long id;
+    private Long id;
     private String name;
     private CountryResponse country;
 
@@ -18,7 +18,7 @@ public class LeagueResponse {
     public LeagueResponse() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

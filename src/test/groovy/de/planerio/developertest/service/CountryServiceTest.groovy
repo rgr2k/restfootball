@@ -80,7 +80,10 @@ class CountryServiceTest extends Specification {
        countryService.update(new CountryUpdateRequest(name: "German", language: "de"), 123)
 
        then:
-       countryRepository.findById(_) >> Optional.of(country)
+       noExceptionThrown()
+
+       and:
+       1 * countryRepository.findById(_) >> Optional.of(country)
    }
 
    def "update - countries not found - exception is thrown"(){
@@ -99,7 +102,7 @@ class CountryServiceTest extends Specification {
        countryService.delete(123)
 
        then:
-       countryRepository.findById(_) >> Optional.of(country)
+       noExceptionThrown()
    }
 
    def "delete - country not found - exception is thrown"(){

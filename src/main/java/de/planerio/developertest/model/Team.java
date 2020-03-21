@@ -8,7 +8,7 @@ public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -19,31 +19,24 @@ public class Team {
     @OneToMany(targetEntity = Player.class)
     private List<Player> players;
 
-    public Team() {
-    }
-
     public Team(String name) {
         this.name = name;
     }
 
-    public Team(long id, String name, League league) {
-        this.id = id;
-        this.name = name;
-        this.league = league;
+    public Team() {
     }
 
-    public Team(long id, String name, League league, List<Player> players) {
-        this.id = id;
+    public Team(String name, League league, List<Player> players) {
         this.name = name;
         this.league = league;
         this.players = players;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

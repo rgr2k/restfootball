@@ -11,7 +11,7 @@ public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -27,7 +27,7 @@ public class Country {
         this.language = language;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

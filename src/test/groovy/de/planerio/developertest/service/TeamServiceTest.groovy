@@ -27,18 +27,7 @@ class TeamServiceTest extends Specification {
 
     def "save - there are more than 19 teams on league - exception is thrown"(){
         given:
-        league.teams = [
-                new Team(name: "Team 1"), new Team(name: "Team 2"),
-                new Team(name: "Team 3"), new Team(name: "Team 4"),
-                new Team(name: "Team 5"), new Team(name: "Team 6"),
-                new Team(name: "Team 7"), new Team(name: "Team 8"),
-                new Team(name: "Team 9"), new Team(name: "Team 10"),
-                new Team(name: "Team 11"), new Team(name: "Team 12"),
-                new Team(name: "Team 13"), new Team(name: "Team 14"),
-                new Team(name: "Team 15"), new Team(name: "Team 16"),
-                new Team(name: "Team 17"), new Team(name: "Team 18"),
-                new Team(name: "Team 19"), new Team(name: "Team 20"),
-        ]
+        league.teams = createTeams(25)
 
         when:
         teamService.save(teamRequest)
@@ -127,7 +116,7 @@ class TeamServiceTest extends Specification {
         teamService.delete(1)
 
         then:
-        teamRepository.deleteById(_)
+        noExceptionThrown()
     }
 
     def "delete - team not found - exception is thrown"(){
@@ -149,7 +138,12 @@ class TeamServiceTest extends Specification {
         teamService.update(teamUpdateRequest, 1)
 
         then:
+        noExceptionThrown()
+
+        and:
         1 * teamRepository.findById(_) >> Optional.of(team)
+
+        and:
         1 * teamRepository.save(_)
     }
 
@@ -165,6 +159,16 @@ class TeamServiceTest extends Specification {
 
         and:
         1 * teamRepository.findById(_) >> Optional.empty()
+    }
+
+    def createTeams(int numberOfTeams){
+        int count = 1
+        def players = []
+        while(count<=numberOfTeams) {
+            players.add(new Team(name: "Team " + count))
+            count++
+        }
+        return players
     }
 
 }

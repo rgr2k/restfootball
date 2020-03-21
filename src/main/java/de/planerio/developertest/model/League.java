@@ -8,7 +8,7 @@ public class League {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -27,7 +27,7 @@ public class League {
         this.country = country;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
