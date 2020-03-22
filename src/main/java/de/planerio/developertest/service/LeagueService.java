@@ -49,9 +49,26 @@ public class LeagueService {
         return LeagueTransformer.toResponse(league);
     }
 
+    public List<LeagueResponse> findAll(String language){
+        if(Strings.isNullOrEmpty(language)){
+            return this.findAll();
+        }
+        return findLeagueByLanguage(language);
+    }
+
     public List<LeagueResponse> findAll(){
         List<LeagueResponse> leagueResponses =
                 leagueRepository.findAll().stream()
+                        .map(LeagueTransformer::toResponse).collect(Collectors.toList());
+        if(leagueResponses.isEmpty()){
+            throw new LeagueNotFoundException(LEAGUE_NOT_FOUND);
+        }
+        return leagueResponses;
+    }
+
+    public List<LeagueResponse> findLeagueByLanguage(String language){
+        List<LeagueResponse> leagueResponses =
+                leagueRepository.findAllByCountryLanguage(language).stream()
                         .map(LeagueTransformer::toResponse).collect(Collectors.toList());
         if(leagueResponses.isEmpty()){
             throw new LeagueNotFoundException(LEAGUE_NOT_FOUND);

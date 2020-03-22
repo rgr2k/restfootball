@@ -7,6 +7,7 @@ import de.planerio.developertest.service.LeagueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
@@ -24,12 +25,12 @@ public class LeagueController implements LeagueResource {
     }
 
     @Override
-    public List<LeagueResponse> retrieveAllLeagues() {
-        return leagueService.findAll();
+    public List<LeagueResponse> getLeagues(String language) {
+        return leagueService.findAll(language);
     }
 
     @Override
-    public LeagueResponse retrieveLeague(long leagueId) {
+    public LeagueResponse getLeague(long leagueId) {
         return leagueService.find(leagueId);
     }
 

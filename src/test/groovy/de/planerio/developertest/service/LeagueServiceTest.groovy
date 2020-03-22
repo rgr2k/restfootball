@@ -126,6 +126,17 @@ class LeagueServiceTest extends Specification {
         1 * leagueRepository.findAll() >> []
     }
 
+    def "findAll - find all leagues by language "(){
+        when:
+        def leaguesResponse = leagueService.findAll("pt")
+
+        then:
+        leaguesResponse.size() > 9
+
+        and:
+        1 * leagueRepository.findAllByCountryLanguage(_) >> createLeague(10)
+    }
+
     def "update"(){
         when:
         leagueService.update(leagueUpdateRequest, 1)

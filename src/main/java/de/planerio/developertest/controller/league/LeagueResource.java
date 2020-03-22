@@ -18,11 +18,11 @@ public interface LeagueResource {
 
     @ApiOperation(value = "Get leagues")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    List<LeagueResponse> retrieveAllLeagues();
+    List<LeagueResponse> getLeagues(@RequestParam(value = "language", required = false) String language);
 
     @ApiOperation(value = "Get league by id")
     @GetMapping(value = "/{leagueId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    LeagueResponse retrieveLeague(@ApiParam(value = "ID of the league that needs to be found", required=true, example = "123") @PathVariable long leagueId);
+    LeagueResponse getLeague(@ApiParam(value = "ID of the league that needs to be found", required=true, example = "123") @PathVariable long leagueId);
 
     @ApiOperation(value = "Create league")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
