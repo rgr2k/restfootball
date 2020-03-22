@@ -1,5 +1,8 @@
 package de.planerio.developertest.model;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,7 +10,7 @@ import java.util.List;
 public class Team {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -16,7 +19,11 @@ public class Team {
     @ManyToOne(optional = false)
     private League league;
 
-    @OneToMany(targetEntity = Player.class)
+    @OneToMany(
+            mappedBy = "team",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Player> players;
 
     public Team(String name) {
@@ -62,5 +69,31 @@ public class Team {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("league", league)
+                .add("players", players)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Team)) return false;
+        Team team = (Team) o;
+        return Objects.equal(getId(), team.getId()) &&
+                Objects.equal(getName(), team.getName()) &&
+                Objects.equal(getLeague(), team.getLeague()) &&
+                Objects.equal(getPlayers(), team.getPlayers());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId(), getName(), getLeague(), getPlayers());
     }
 }
