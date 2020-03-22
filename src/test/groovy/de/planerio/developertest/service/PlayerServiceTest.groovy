@@ -2,7 +2,7 @@ package de.planerio.developertest.service
 
 import de.planerio.developertest.UnitTest
 import de.planerio.developertest.exception.PlayerNotFoundException
-import de.planerio.developertest.exception.ResourceNotAcceptableException
+import de.planerio.developertest.exception.BadRequestException
 import de.planerio.developertest.model.Country
 import de.planerio.developertest.model.League
 import de.planerio.developertest.model.Player
@@ -36,10 +36,35 @@ class PlayerServiceTest extends Specification{
         playerService.save(playerRequest)
 
         then:
-        thrown(ResourceNotAcceptableException)
+        thrown(BadRequestException)
 
         and:
         1 * teamRepository.findById(_) >> Optional.of(team)
+    }
+
+    def "save - jersey number outside of the range - exception is thrown"(){
+        given:
+        def playerRequest = new PlayerRequest(name: "Player 1", position: PlayerPosition.CAM, shirtNumber: 100)
+
+        when:
+        playerService.save(playerRequest)
+
+        then:
+        thrown(BadRequestException)
+    }
+
+    def "save - jersey number already exists - exception is thrown"(){
+        given:
+        def playerRequest = new PlayerRequest(name: "Player 1", position: PlayerPosition.CAM, shirtNumber: 88)
+
+        when:
+        playerService.save(playerRequest)
+
+        then:
+        thrown(BadRequestException)
+
+        and:
+        1 * playerRepository.existsByShirtNumber(_) >> true
     }
 
     def "save"(){

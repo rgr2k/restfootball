@@ -2,7 +2,7 @@ package de.planerio.developertest.service
 
 import de.planerio.developertest.UnitTest
 import de.planerio.developertest.exception.LeagueNotFoundException
-import de.planerio.developertest.exception.ResourceNotAcceptableException
+import de.planerio.developertest.exception.BadRequestException
 import de.planerio.developertest.exception.TeamNotFoundException
 import de.planerio.developertest.model.Country
 import de.planerio.developertest.model.League
@@ -33,7 +33,7 @@ class TeamServiceTest extends Specification {
         teamService.save(teamRequest)
 
         then:
-        thrown(ResourceNotAcceptableException)
+        thrown(BadRequestException)
 
         and:
         1 * leagueRepository.findById(_) >> Optional.of(league)

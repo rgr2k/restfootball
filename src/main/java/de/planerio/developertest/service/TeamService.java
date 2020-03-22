@@ -1,7 +1,7 @@
 package de.planerio.developertest.service;
 
 import de.planerio.developertest.exception.LeagueNotFoundException;
-import de.planerio.developertest.exception.ResourceNotAcceptableException;
+import de.planerio.developertest.exception.BadRequestException;
 import de.planerio.developertest.exception.TeamNotFoundException;
 import de.planerio.developertest.model.*;
 import de.planerio.developertest.repository.LeagueRepository;
@@ -35,7 +35,7 @@ public class TeamService {
                         .orElseThrow(() -> new LeagueNotFoundException(LEAGUE_NOT_FOUND));
 
         if(league.getTeams().size() > 19){
-            throw new ResourceNotAcceptableException(MORE_THAN_20_TEAMS_PER_LEAGUE);
+            throw new BadRequestException(MORE_THAN_20_TEAMS_PER_LEAGUE);
         }
 
         Team team = TeamTransformer.toEntity(teamRequest);

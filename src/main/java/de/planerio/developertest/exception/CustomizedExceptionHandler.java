@@ -58,9 +58,9 @@ public class CustomizedExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(expectionResponse, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(ResourceNotAcceptableException.class)
-    public final ResponseEntity<ExpectionResponse> handleResourceNotAcceptableException(Exception exception, WebRequest webRequest){
+    @ExceptionHandler(BadRequestException.class)
+    public final ResponseEntity<ExpectionResponse> handleBadRequestException(Exception exception, WebRequest webRequest){
         ExpectionResponse expectionResponse = new ExpectionResponse(new Date(), exception.getMessage(), webRequest.getDescription(false));
-        return new ResponseEntity<>(expectionResponse, HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>(expectionResponse, HttpStatus.BAD_REQUEST);
     }
 }
