@@ -10,16 +10,10 @@ import de.planerio.developertest.repository.TeamRepository;
 import de.planerio.developertest.transformer.PlayerTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.time.temporal.ValueRange;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static de.planerio.developertest.exception.Constants.TEAM_NOT_FOUND;
@@ -63,8 +57,8 @@ public class PlayerService {
        return PlayerTransformer.toResponse(player);
     }
 
-    public List<PlayerResponse> findAll(List<PlayerPosition> positions, String sortBy, String orderBy){
-        if(Objects.isNull(positions) && Strings.isNullOrEmpty(sortBy) && Strings.isNullOrEmpty(orderBy)){
+    public List<PlayerResponse> findAll(List<PlayerPosition> positions, String sortBy, OrderBy orderBy){
+        if(positions.size() == 0 && Strings.isNullOrEmpty(sortBy) && orderBy == null){
             return this.findAll();
         }
 
@@ -86,10 +80,6 @@ public class PlayerService {
             throw new PlayerNotFoundException(PLAYER_NOT_FOUND);
         }
         return players;
-    }
-
-    public List<PlayerResponse> findAllByPosition(PlayerPosition position){
-       return null;
     }
 
     public void delete(long playerId){

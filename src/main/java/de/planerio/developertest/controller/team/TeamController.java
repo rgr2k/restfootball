@@ -18,12 +18,12 @@ public class TeamController implements TeamResource{
     }
 
     @Override
-    public List<TeamResponse> retrieveAllTeam() {
+    public List<TeamResponse> getTeams() {
         return teamService.findAll();
     }
 
     @Override
-    public TeamResponse retrieveTeam(long teamId) {
+    public TeamResponse getTeam(long teamId) {
         return teamService.findById(teamId);
     }
 

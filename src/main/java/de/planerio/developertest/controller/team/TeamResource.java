@@ -16,11 +16,11 @@ public interface TeamResource {
 
     @ApiOperation(value = "Get teams")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    List<TeamResponse> retrieveAllTeam();
+    List<TeamResponse> getTeams();
 
     @ApiOperation(value = "Get team by id")
     @GetMapping(value = "/{teamId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    TeamResponse retrieveTeam(@ApiParam(value = "ID of the team that needs to be found", required=true, example = "1") @PathVariable long teamId);
+    TeamResponse getTeam(@ApiParam(value = "ID of the team that needs to be found", required=true, example = "1") @PathVariable long teamId);
 
     @ApiOperation(value = "Create team")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

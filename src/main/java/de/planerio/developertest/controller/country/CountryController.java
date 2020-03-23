@@ -29,12 +29,12 @@ public class CountryController implements CountryResource {
     }
 
     @Override
-    public List<CountryResponse> retrieveAllCountries() {
+    public List<CountryResponse> getCountries() {
         return countryService.findAll();
     }
 
     @Override
-    public CountryResponse retrieveCountry(long countryId) {
+    public CountryResponse getCountry(long countryId) {
         return countryService.find(countryId);
     }
 

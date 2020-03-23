@@ -21,7 +21,7 @@ public class Player {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @Column(nullable = false)
+    @Column(name = "position", nullable = false)
     @Enumerated(EnumType.STRING)
     private PlayerPosition position;
 
@@ -42,7 +42,7 @@ public class Player {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

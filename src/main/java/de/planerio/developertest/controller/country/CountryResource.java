@@ -19,11 +19,11 @@ public interface CountryResource {
 
     @ApiOperation(value = "Get countries")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    List<CountryResponse> retrieveAllCountries();
+    List<CountryResponse> getCountries();
 
     @ApiOperation(value = "Get country by id")
     @GetMapping(value = "/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    CountryResponse retrieveCountry(@ApiParam(value = "ID of the country that needs to be found", required=true, example = "1") @PathVariable long countryId);
+    CountryResponse getCountry(@ApiParam(value = "ID of the country that needs to be found", required=true, example = "1") @PathVariable long countryId);
 
     @ApiOperation(value = "Create country")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

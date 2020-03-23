@@ -17,8 +17,8 @@ public interface PlayerResource {
     @ApiOperation(value = "Get players")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     List<PlayerResponse> getPlayers(@RequestParam(value = "positions", required = false) List<PlayerPosition> positions,
-                                    @RequestParam(value = "sort_by", defaultValue = "name", required = false) String sortBy,
-                                    @RequestParam(value = "order_by", defaultValue = "desc", required = false) String orderBy);
+                                    @RequestParam(value = "sort_by", required = false) String sortBy,
+                                    @RequestParam(value = "order_by", required = false) OrderBy orderBy);
 
     @ApiOperation(value = "Get league by id")
     @GetMapping(value = "/{playerId}", produces = MediaType.APPLICATION_JSON_VALUE)

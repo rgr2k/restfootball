@@ -1,9 +1,6 @@
 package de.planerio.developertest.controller.player;
 
-import de.planerio.developertest.model.PlayerPosition;
-import de.planerio.developertest.model.PlayerRequest;
-import de.planerio.developertest.model.PlayerResponse;
-import de.planerio.developertest.model.PlayerUpdateRequest;
+import de.planerio.developertest.model.*;
 import de.planerio.developertest.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +20,7 @@ public class PlayerController implements PlayerResource {
 
 
     @Override
-    public List<PlayerResponse> getPlayers(List<PlayerPosition> positions, String sortBy, String orderBy) {
+    public List<PlayerResponse> getPlayers(List<PlayerPosition> positions, String sortBy, OrderBy orderBy) {
         return playerService.findAll(positions, sortBy, orderBy);
     }
 

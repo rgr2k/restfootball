@@ -5,6 +5,7 @@ import de.planerio.developertest.exception.PlayerNotFoundException
 import de.planerio.developertest.exception.BadRequestException
 import de.planerio.developertest.model.Country
 import de.planerio.developertest.model.League
+import de.planerio.developertest.model.OrderBy
 import de.planerio.developertest.model.Player
 import de.planerio.developertest.model.PlayerPosition
 import de.planerio.developertest.model.PlayerRequest
@@ -110,7 +111,7 @@ class PlayerServiceTest extends Specification{
 
     def "findAll"(){
         when:
-        def playersResponse = playerService.findAll()
+        def playersResponse = playerService.findAll([] as List, null, null)
 
         then:
         playersResponse.size() > 4
@@ -121,7 +122,7 @@ class PlayerServiceTest extends Specification{
 
     def "findAll - player not found - exception is thrown"(){
         when:
-        playerService.findAll()
+        playerService.findAll([] as List, null, null)
 
         then:
         thrown(PlayerNotFoundException)
@@ -130,15 +131,26 @@ class PlayerServiceTest extends Specification{
         1 * playerRepository.findAll() >> []
     }
 
-    def "findAll - find all players by position"(){
+    def "findPlayerByPositionsInSort - find all players by position"(){
         when:
-        def playersResponse = playerService.findAll(PlayerPosition.CDM)
+        def playersResponse = playerService.findAll([PlayerPosition.CDM], "name", OrderBy.ASC)
 
         then:
         playersResponse.size() > 4
 
         and:
-        1 * playerRepository.findAllByPosition(_) >> createPlayers(5)
+        1 * playerRepository.findPlayerByPositionsInSort(_,_,_) >> createPlayers(5)
+    }
+
+    def "findPlayerByPositionsInSort - player not found - exception is thrown"(){
+        when:
+        def playersResponse = playerService.findAll([PlayerPosition.CDM], "name", OrderBy.ASC)
+
+        then:
+        thrown(PlayerNotFoundException)
+
+        and:
+        1 * playerRepository.findPlayerByPositionsInSort(_,_,_) >> []
     }
 
     def "delete"(){
