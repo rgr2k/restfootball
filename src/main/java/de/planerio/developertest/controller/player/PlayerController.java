@@ -1,5 +1,6 @@
 package de.planerio.developertest.controller.player;
 
+import de.planerio.developertest.model.PlayerPosition;
 import de.planerio.developertest.model.PlayerRequest;
 import de.planerio.developertest.model.PlayerResponse;
 import de.planerio.developertest.model.PlayerUpdateRequest;
@@ -22,12 +23,12 @@ public class PlayerController implements PlayerResource {
 
 
     @Override
-    public List<PlayerResponse> retrieveAllPlayers() {
-        return playerService.findAll();
+    public List<PlayerResponse> getPlayers(List<PlayerPosition> positions, String sortBy, String orderBy) {
+        return playerService.findAll(positions, sortBy, orderBy);
     }
 
     @Override
-    public PlayerResponse retrievePlayer(long playerId) {
+    public PlayerResponse getPlayer(long playerId) {
         return playerService.findById(playerId);
     }
 

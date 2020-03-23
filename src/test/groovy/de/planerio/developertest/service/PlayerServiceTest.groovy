@@ -130,6 +130,17 @@ class PlayerServiceTest extends Specification{
         1 * playerRepository.findAll() >> []
     }
 
+    def "findAll - find all players by position"(){
+        when:
+        def playersResponse = playerService.findAll(PlayerPosition.CDM)
+
+        then:
+        playersResponse.size() > 4
+
+        and:
+        1 * playerRepository.findAllByPosition(_) >> createPlayers(5)
+    }
+
     def "delete"(){
         when:
         playerService.delete(123)

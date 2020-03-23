@@ -16,11 +16,13 @@ public interface PlayerResource {
 
     @ApiOperation(value = "Get players")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    List<PlayerResponse> retrieveAllPlayers();
+    List<PlayerResponse> getPlayers(@RequestParam(value = "positions", required = false) List<PlayerPosition> positions,
+                                    @RequestParam(value = "sort_by", defaultValue = "name", required = false) String sortBy,
+                                    @RequestParam(value = "order_by", defaultValue = "desc", required = false) String orderBy);
 
     @ApiOperation(value = "Get league by id")
     @GetMapping(value = "/{playerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    PlayerResponse retrievePlayer(@ApiParam(value = "ID of the league that needs to be found", required=true, example = "123") @PathVariable long playerId);
+    PlayerResponse getPlayer(@ApiParam(value = "ID of the league that needs to be found", required=true, example = "123") @PathVariable long playerId);
 
     @ApiOperation(value = "Create player")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

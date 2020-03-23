@@ -4,20 +4,22 @@ import com.google.common.base.Strings;
 import de.planerio.developertest.exception.PlayerNotFoundException;
 import de.planerio.developertest.exception.BadRequestException;
 import de.planerio.developertest.exception.TeamNotFoundException;
-import de.planerio.developertest.model.PlayerResponse;
-import de.planerio.developertest.model.PlayerRequest;
-import de.planerio.developertest.model.Team;
-import de.planerio.developertest.model.Player;
-import de.planerio.developertest.model.PlayerUpdateRequest;
+import de.planerio.developertest.model.*;
 import de.planerio.developertest.repository.PlayerRepository;
 import de.planerio.developertest.repository.TeamRepository;
 import de.planerio.developertest.transformer.PlayerTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.time.temporal.ValueRange;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static de.planerio.developertest.exception.Constants.TEAM_NOT_FOUND;
@@ -61,6 +63,21 @@ public class PlayerService {
        return PlayerTransformer.toResponse(player);
     }
 
+    public List<PlayerResponse> findAll(List<PlayerPosition> positions, String sortBy, String orderBy){
+        if(Objects.isNull(positions) && Strings.isNullOrEmpty(sortBy) && Strings.isNullOrEmpty(orderBy)){
+            return this.findAll();
+        }
+
+        final List<Player> players =
+                playerRepository.findPlayerByPositionsInSort(positions, sortBy, orderBy);
+
+        if (players.isEmpty()){
+            throw new PlayerNotFoundException(PLAYER_NOT_FOUND);
+        }
+
+        return players.stream().map(PlayerTransformer::toResponse).collect(Collectors.toList());
+    }
+
     public List<PlayerResponse> findAll(){
         List<PlayerResponse> players =
                 playerRepository.findAll().stream()
@@ -69,6 +86,10 @@ public class PlayerService {
             throw new PlayerNotFoundException(PLAYER_NOT_FOUND);
         }
         return players;
+    }
+
+    public List<PlayerResponse> findAllByPosition(PlayerPosition position){
+       return null;
     }
 
     public void delete(long playerId){

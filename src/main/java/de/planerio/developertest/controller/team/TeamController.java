@@ -1,6 +1,5 @@
 package de.planerio.developertest.controller.team;
 
-import de.planerio.developertest.exception.TeamNotFoundException;
 import de.planerio.developertest.model.*;
 import de.planerio.developertest.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
